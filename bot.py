@@ -6,6 +6,7 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime, Date, F
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
+from db_settings import Users, Session, Attendance
 import os
 
 load_dotenv()
@@ -15,33 +16,6 @@ intents.messages = True
 
 bot = commands.Bot(command_prefix='/', intents=intents)
 
-# SQLAlchemy setup
-engine = create_engine('sqlite:///attendance_database.db', echo=True)
-Base = declarative_base()
-
-class Users(Base):
-    __tablename__ = 'users'
-    user_id = Column(Integer, primary_key=True)
-    username = Column(String, unique=True)
-    name = Column(String)
-    attendance = relationship("Attendance", back_populates="user")
-
-class Attendance(Base):
-    __tablename__ = 'attendance'
-    attendance_id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.user_id'))
-    check_in_time = Column(DateTime, default=datetime.now)
-    check_out_time = Column(DateTime)
-    remarks = Column(String)
-    date = Column(Date)
-    location = Column(String)  # Add the location field
-
-    user = relationship("Users", back_populates="attendance")
-
-
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()
 
 @bot.event
 async def on_ready():
