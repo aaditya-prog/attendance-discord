@@ -25,6 +25,7 @@ class Attendance(Base):
     user_id = Column(Integer, ForeignKey('users.user_id'))
     check_in_time = Column(DateTime, default=datetime.now)
     check_out_time = Column(DateTime)
+    hours_worked = Column(String)
     remarks = Column(String)
     date = Column(Date)
     location = Column(String)  # Add the location field
