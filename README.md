@@ -1,1 +1,1 @@
-Add Bot Token in .env
+A simple discord single server attendance bot that I made using Discord and Python (discord.py). 
